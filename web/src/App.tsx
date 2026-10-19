@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { JobForm } from "./components/JobForm";
 import { ListPane } from "./components/ListPane";
 import { Button, Icon } from "./components/ui";
+import { Logo } from "./components/Logo";
 import { useStore } from "./store";
 
 export function App() {
@@ -17,20 +18,31 @@ export function App() {
   const open = form.kind !== "closed";
 
   return (
-    <div className="mx-auto w-full max-w-[768px] px-5 pt-10 pb-24">
+    <div className="mx-auto w-full max-w-3xl px-5 pt-10 pb-24">
       <header className="mb-8 flex items-center justify-between">
-        <div>
-          <p className="eyebrow">Record</p>
-          <h1 className="text-xl font-semibold tracking-tight text-ink/90">Job Hunter</h1>
+        <div className="flex flex-row gap-2 items-center">
+          <Logo />
+          <div className="pt-3">
+            <p className="eyebrow leading-1">Record</p>
+            <h1 className="text-xl font-semibold tracking-tight text-ink/90">
+              Job Hunter
+            </h1>
+          </div>
         </div>
         <Button
           variant="quiet"
           size="sm"
           className="h-8"
           onClick={toggleTheme}
-          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          aria-label={
+            theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+          }
         >
-          {theme === "dark" ? <Icon.Sun className="size-3.5" /> : <Icon.Moon className="size-3.5" />}
+          {theme === "dark" ? (
+            <Icon.Sun className="size-3.5" />
+          ) : (
+            <Icon.Moon className="size-3.5" />
+          )}
           {theme === "dark" ? "Light" : "Dark"}
         </Button>
       </header>
@@ -41,10 +53,14 @@ export function App() {
             key={n.id}
             role="status"
             className={`fade-in flex items-start gap-2.5 rounded-sm border px-3.5 py-2.5 text-[0.8125rem] ${
-              n.tone === "warning" ? "border-warn/40 text-warn" : "border-line bg-surface text-ink-2"
+              n.tone === "warning"
+                ? "border-warn/40 text-warn"
+                : "border-line bg-surface text-ink-2"
             }`}
           >
-            {n.tone === "warning" ? <Icon.Alert className="mt-0.5 size-4 shrink-0" /> : null}
+            {n.tone === "warning" ? (
+              <Icon.Alert className="mt-0.5 size-4 shrink-0" />
+            ) : null}
             <span className="flex-1">{n.text}</span>
             <button
               type="button"
@@ -60,7 +76,11 @@ export function App() {
 
       <section aria-label="Add or edit a record">
         {!open ? (
-          <Button variant="primary" className="w-full h-11 tracking-[0.14em] text-[0.8125rem]" onClick={openAdd}>
+          <Button
+            variant="primary"
+            className="w-full h-11 tracking-[0.14em] text-[0.8125rem]"
+            onClick={openAdd}
+          >
             <Icon.Plus className="size-4" /> ADD
           </Button>
         ) : null}
@@ -68,7 +88,9 @@ export function App() {
           <div className="reveal-inner">
             <div className="rounded-md border border-line bg-surface">
               {form.kind === "add" ? <JobForm key="add" /> : null}
-              {form.kind === "edit" ? <JobForm key={`edit-${form.job.id}`} job={form.job} /> : null}
+              {form.kind === "edit" ? (
+                <JobForm key={`edit-${form.job.id}`} job={form.job} />
+              ) : null}
             </div>
           </div>
         </div>
@@ -77,7 +99,17 @@ export function App() {
       <ListPane />
 
       <footer className="mt-16 text-center text-xs text-ink-3">
-        Frozen job descriptions are historic evidence and are never overwritten.
+        <p>
+          Frozen job descriptions are historic evidence and are never
+          overwritten.
+        </p>
+        <a
+          href="https://www.linkedin.com/in/BruceRoyce"
+          target="_blank"
+          className="text-[80%] underline opacity-70 hover:opacity-100"
+        >
+          2026 - Bruce Royce
+        </a>{" "}
       </footer>
     </div>
   );
