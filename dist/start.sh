@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+cd "$(dirname "$0")"
+exec deno run --allow-net --allow-read --allow-write --allow-env --allow-sys server/main.ts
