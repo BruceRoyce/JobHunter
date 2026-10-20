@@ -1,4 +1,4 @@
-# Job Hunter (Record)
+# Job Hunter (Tracker)
 
 A calm, portable tracker for the jobs you have applied to — or intend to.
 Deno + SQLite on the server, Vite + React + TypeScript + Tailwind + Zustand in the browser.
@@ -25,11 +25,11 @@ deno task dev        # API on :8787 (watch mode) + Vite on http://localhost:5173
 
 Other tasks:
 
-| Task | What it does |
-| --- | --- |
-| `deno task check` | Type-check server and front-end |
-| `deno task smoke` | End-to-end API smoke test against `dist/` with a throwaway data folder (run `build` first) |
-| `deno task compile:windows` | Optional: single `dist/job-hunter.exe` (no Deno needed on the target PC, ~80 MB) |
+| Task                        | What it does                                                                               |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| `deno task check`           | Type-check server and front-end                                                            |
+| `deno task smoke`           | End-to-end API smoke test against `dist/` with a throwaway data folder (run `build` first) |
+| `deno task compile:windows` | Optional: single `dist/job-hunter.exe` (no Deno needed on the target PC, ~80 MB)           |
 
 ## Portable build (`dist/`)
 
@@ -50,7 +50,7 @@ Environment variables: `PORT` (8787), `HOST` (127.0.0.1), `JOB_HUNTER_DATA` (alt
 
 ## How it works
 
-**Pane one — ADD / Edit.** `ADD` expands the *Record an application* form. Via Employer requires the employer
+**Pane one — ADD / Edit.** `ADD` expands the _Record an application_ form. Via Employer requires the employer
 name; via Agency shows and requires the agency name. Validation runs in the browser and again on the server; on
 any error the message is shown and every entry (including chosen files) is kept so you can retry.
 
@@ -71,24 +71,24 @@ event's date (and status) can be corrected. **The frozen advert is never overwri
 replace it and a SQLite trigger makes the advert columns immutable once set.
 
 **Pane two — Records.** Cards show star, employer/agency, title, colour-coded status, URL (new tab), View CV /
-View Cover Letter / View frozen Job Description, and collapsed *Notes* (Markdown, sanitised) and *Events*
+View Cover Letter / View frozen Job Description, and collapsed _Notes_ (Markdown, sanitised) and _Events_
 (chronological) accordions. Sort by last update date / job title / employer-or-agency name / salary
-(numeric value parsed from the text, e.g. `£55k`), filter by status, *Clear filters*, 50 per page with a paginator,
-and *Export All* → CSV with `Job Title, Employer Name, Agency Name` (UTF-8 with BOM for Excel; formula-injection safe).
+(numeric value parsed from the text, e.g. `£55k`), filter by status, _Clear filters_, 50 per page with a paginator,
+and _Export All_ → CSV with `Job Title, Employer Name, Agency Name` (UTF-8 with BOM for Excel; formula-injection safe).
 
 Frozen web pages are served with a `sandbox` Content-Security-Policy so their scripts never run.
 
 ## API
 
-| Method | Path | |
-| --- | --- | --- |
-| GET | `/api/jobs?sort=updated\|title\|name\|salary&dir=asc\|desc&status=…&page=1` | paged list (50) with events |
-| POST | `/api/jobs` | create (multipart: fields + `cv`, `cover_letter`, optional `advert`) |
-| GET | `/api/jobs/:id` | one record |
-| PUT | `/api/jobs/:id` | update (multipart; `events` = JSON `[{id?, status, event_date}]`) |
-| GET | `/api/jobs/:id/files/cv\|cover-letter\|advert` | view stored file inline (`?download=1` to save) |
-| GET | `/api/export.csv` | export all records |
-| GET | `/api/health` | health check |
+| Method | Path                                                                        |                                                                      |
+| ------ | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| GET    | `/api/jobs?sort=updated\|title\|name\|salary&dir=asc\|desc&status=…&page=1` | paged list (50) with events                                          |
+| POST   | `/api/jobs`                                                                 | create (multipart: fields + `cv`, `cover_letter`, optional `advert`) |
+| GET    | `/api/jobs/:id`                                                             | one record                                                           |
+| PUT    | `/api/jobs/:id`                                                             | update (multipart; `events` = JSON `[{id?, status, event_date}]`)    |
+| GET    | `/api/jobs/:id/files/cv\|cover-letter\|advert`                              | view stored file inline (`?download=1` to save)                      |
+| GET    | `/api/export.csv`                                                           | export all records                                                   |
+| GET    | `/api/health`                                                               | health check                                                         |
 
 Status values: `Applied`, `Interested`, `Going to interview`, `unsuccessful`, `successful`, `Closed`.
 

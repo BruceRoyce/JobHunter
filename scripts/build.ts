@@ -8,7 +8,12 @@ const dist = new URL("dist/", root);
 const deno = Deno.execPath();
 
 async function run(args: string[], cwd: URL) {
-  const { code } = await new Deno.Command(deno, { args, cwd, stdout: "inherit", stderr: "inherit" }).output();
+  const { code } = await new Deno.Command(deno, {
+    args,
+    cwd,
+    stdout: "inherit",
+    stderr: "inherit",
+  }).output();
   if (code !== 0) throw new Error(`Command failed: deno ${args.join(" ")}`);
 }
 
@@ -16,7 +21,10 @@ console.log("› Installing front-end dependencies");
 await run(["install"], new URL("web/", root));
 console.log("› Type-checking");
 await run(["check", "server/main.ts"], root);
-await run(["run", "-A", "npm:typescript/tsc", "--noEmit", "-p", "."], new URL("web/", root));
+await run(
+  ["run", "-A", "npm:typescript/tsc", "--noEmit", "-p", "."],
+  new URL("web/", root),
+);
 
 // Keep an existing dist/data (user records) intact; replace everything else.
 await Deno.mkdir(dist, { recursive: true });
@@ -32,7 +40,10 @@ console.log("› Copying server");
 await Deno.mkdir(new URL("server/", dist), { recursive: true });
 for await (const e of Deno.readDir(new URL("server/", root))) {
   if (e.isFile && e.name.endsWith(".ts")) {
-    await Deno.copyFile(new URL(`server/${e.name}`, root), new URL(`server/${e.name}`, dist));
+    await Deno.copyFile(
+      new URL(`server/${e.name}`, root),
+      new URL(`server/${e.name}`, dist),
+    );
   }
 }
 
@@ -47,10 +58,12 @@ await Deno.writeTextFile(
 );
 try {
   await Deno.chmod(new URL("start.sh", dist), 0o755);
-} catch { /* Windows */ }
+} catch {
+  /* Windows */
+}
 await Deno.writeTextFile(
   new URL("README.txt", dist),
-  `Job Hunter (Record) — portable build
+  `Job Hunter (Tracker) — portable build
 =====================================
 
 This folder is self-contained. Move or copy it anywhere; your records travel with it.

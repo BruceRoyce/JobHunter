@@ -23,7 +23,7 @@ export function App() {
         <div className="flex flex-row gap-2 items-center">
           <Logo />
           <div className="pt-3">
-            <p className="eyebrow leading-1">Record</p>
+            <p className="eyebrow leading-1">Tracker</p>
             <h1 className="text-xl font-semibold tracking-tight text-ink/90">
               Job Hunter
             </h1>
