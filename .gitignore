@@ -1,7 +1,8 @@
 node_modules/
 web/node_modules/
-data/*
 !data/.gitkeep
+data/*
+dist/*
 dist/data/
 dist/*.exe
 *.db
